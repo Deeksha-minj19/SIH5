@@ -21,12 +21,9 @@ export const Header: React.FC<HeaderProps> = ({
         
         {/* Logo */}
         <div className="flex items-center space-x-1 cursor-pointer">
-          <h1 className="text-2xl font-bold text-[#1E293B]">
-            Medico
+          <h1 className="text-2xl font-black text-slate-900 tracking-tight">
+            RETINA<span className="text-[#34A853]">-MITRA</span>
           </h1>
-          <div className="text-[#34A853]">
-            <Plus className="w-6 h-6 stroke-[3]" />
-          </div>
         </div>
 
         {/* Desktop Navigation - Centered */}

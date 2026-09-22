@@ -86,13 +86,6 @@ export function App() {
               
               {/* Left Column: Text & CTA */}
               <div className="space-y-6 text-center lg:text-left pt-10 lg:pt-0">
-                <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/60 border border-white/80 shadow-sm backdrop-blur-sm text-xs font-bold text-[#34A853] mx-auto lg:mx-0">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#34A853] opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#34A853]"></span>
-                  </span>
-                  <span>Member 5 Active</span>
-                </div>
                 
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#1E293B] tracking-tight leading-tight">
                   Your Health <br />
