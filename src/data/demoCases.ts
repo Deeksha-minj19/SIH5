@@ -69,105 +69,11 @@ export const DEMO_PATIENTS: Record<string, PatientData> = {
   }
 };
 
-// SVG data URI helper for fundus images with retinal blood vessels & optic disc
-export function createRetinalImageSvg(type: 'normal' | 'mild' | 'moderate' | 'severe' | 'blurry'): string {
-  const bg = type === 'blurry' ? '#8a3b14' : '#b84414';
-  const discColor = '#ffdb99';
-  
-  let indicators = '';
-  if (type === 'mild') {
-    // A few microaneurysms (red dots)
-    indicators = `
-      <circle cx="210" cy="160" r="4" fill="#880000" stroke="#ff4444" stroke-width="1.5" />
-      <circle cx="280" cy="240" r="3.5" fill="#880000" stroke="#ff4444" stroke-width="1.5" />
-      <circle cx="160" cy="290" r="4.5" fill="#880000" stroke="#ff4444" stroke-width="1.5" />
-    `;
-  } else if (type === 'moderate') {
-    // Microaneurysms + hard exudates (yellow spots) + hemorrhages
-    indicators = `
-      <circle cx="210" cy="160" r="5" fill="#990000" stroke="#ff3333" stroke-width="1.5" />
-      <circle cx="280" cy="240" r="4" fill="#990000" stroke="#ff3333" stroke-width="1.5" />
-      <circle cx="150" cy="280" r="6" fill="#770000" stroke="#ff2222" stroke-width="1.5" />
-      <circle cx="240" cy="180" r="5" fill="#fffb99" stroke="#e6c200" stroke-width="1" />
-      <circle cx="255" cy="190" r="4" fill="#fffb99" stroke="#e6c200" stroke-width="1" />
-      <path d="M 180 200 Q 190 205 195 215" stroke="#aa0000" stroke-width="3.5" fill="none" stroke-linecap="round" />
-    `;
-  } else if (type === 'severe') {
-    // Multiple hemorrhages, cotton wool spots (soft whiteish exudates), venous beading
-    indicators = `
-      <circle cx="210" cy="160" r="7" fill="#880000" stroke="#ff3333" stroke-width="2" />
-      <circle cx="280" cy="240" r="6" fill="#880000" stroke="#ff3333" stroke-width="2" />
-      <circle cx="150" cy="280" r="8" fill="#660000" stroke="#ff2222" stroke-width="2" />
-      <circle cx="310" cy="150" r="7" fill="#660000" stroke="#ff2222" stroke-width="2" />
-      <!-- Cotton wool spots -->
-      <ellipse cx="230" cy="140" rx="12" ry="8" fill="#ffffff" opacity="0.85" />
-      <ellipse cx="170" cy="220" rx="14" ry="9" fill="#ffffff" opacity="0.8" />
-      <!-- Hard exudates ring -->
-      <circle cx="240" cy="180" r="5" fill="#fffb99" />
-      <circle cx="255" cy="190" r="4.5" fill="#fffb99" />
-      <circle cx="265" cy="175" r="5" fill="#fffb99" />
-      <path d="M 160 190 Q 185 210 200 230" stroke="#880000" stroke-width="5" fill="none" />
-    `;
-  }
-
-  const blurFilter = type === 'blurry' ? 'filter="url(#blur-effect)"' : '';
-
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
-      <defs>
-        <radialGradient id="fundus-grad" cx="45%" cy="45%" r="55%">
-          <stop offset="0%" stop-color="#d95d1e"/>
-          <stop offset="70%" stop-color="${bg}"/>
-          <stop offset="100%" stop-color="#4a1505"/>
-        </radialGradient>
-        <filter id="blur-effect">
-          <feGaussianBlur stdDeviation="6" />
-        </filter>
-        <radialGradient id="disc-grad" cx="40%" cy="40%" r="60%">
-          <stop offset="0%" stop-color="#fff4d1"/>
-          <stop offset="100%" stop-color="${discColor}"/>
-        </radialGradient>
-      </defs>
-      
-      <!-- Retinal Background -->
-      <circle cx="200" cy="200" r="190" fill="url(#fundus-grad)" ${blurFilter} />
-      
-      <g ${blurFilter}>
-        <!-- Optic Disc -->
-        <circle cx="110" cy="200" r="32" fill="url(#disc-grad)" stroke="#ffa333" stroke-width="2" />
-        
-        <!-- Macula -->
-        <ellipse cx="230" cy="200" rx="20" ry="18" fill="#6e2105" opacity="0.75" />
-        <circle cx="230" cy="200" r="4" fill="#3a1002" opacity="0.8" />
-        
-        <!-- Retinal Vascular Tree (Main Arcades) -->
-        <!-- Superior Temporal Arcade -->
-        <path d="M 115 180 Q 140 100 240 80 Q 300 70 340 110" stroke="#7a0d02" stroke-width="5" fill="none" stroke-linecap="round" />
-        <path d="M 115 180 Q 140 100 240 80 Q 300 70 340 110" stroke="#d63427" stroke-width="2.5" fill="none" stroke-linecap="round" />
-        
-        <!-- Inferior Temporal Arcade -->
-        <path d="M 115 220 Q 140 300 240 320 Q 300 330 350 280" stroke="#7a0d02" stroke-width="5" fill="none" stroke-linecap="round" />
-        <path d="M 115 220 Q 140 300 240 320 Q 300 330 350 280" stroke="#d63427" stroke-width="2.5" fill="none" stroke-linecap="round" />
-
-        <!-- Nasal Branches -->
-        <path d="M 100 185 Q 70 120 40 100" stroke="#7a0d02" stroke-width="4" fill="none" />
-        <path d="M 100 215 Q 70 280 40 300" stroke="#7a0d02" stroke-width="4" fill="none" />
-
-        <!-- Micro-vessel branching -->
-        <path d="M 180 100 Q 210 130 230 150" stroke="#b02619" stroke-width="1.8" fill="none" />
-        <path d="M 180 300 Q 210 270 230 250" stroke="#b02619" stroke-width="1.8" fill="none" />
-        <path d="M 270 85 Q 275 120 280 140" stroke="#b02619" stroke-width="1.5" fill="none" />
-        
-        <!-- Clinical Indicators Overlay -->
-        ${indicators}
-      </g>
-      
-      <!-- Vignette Border -->
-      <circle cx="200" cy="200" r="190" fill="none" stroke="#1e0802" stroke-width="8" opacity="0.6" />
-    </svg>
-  `;
-
-  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+// Use realistic asset for retinal images instead of SVG
+export function createRetinalImageSvg(_type: 'normal' | 'mild' | 'moderate' | 'severe' | 'blurry'): string {
+  // We can return different assets here if we had more, but for now we'll use the main scan
+  // Adding blur via CSS later if type === 'blurry'
+  return '/assets/retinal_scan.jpg';
 }
 
 export const DEMO_CASES: Record<string, ScreeningResultState> = {

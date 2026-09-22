@@ -8,7 +8,9 @@ import {
   ChevronRight,
   Info,
   Sparkles,
-  Activity
+  Code,
+  CheckCircle2,
+  AlertCircle
 } from 'lucide-react';
 
 interface ScreeningResultScreenProps {
@@ -30,358 +32,179 @@ export const ScreeningResultScreen: React.FC<ScreeningResultScreenProps> = ({
     resultState;
 
   return (
-    <div className="space-y-6 pb-8 animate-fadeIn">
-      {/* Page Title & Subtitle Banner (Medico+ Clean Header Card) */}
-      <div className="medico-card p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 medico-bg-gradient border-teal-100">
+    <div className="space-y-8 pb-12 animate-fadeIn medico-section-light p-6 sm:p-10 rounded-[2rem]">
+      
+      {/* Medico+ Section Header */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-gray-200 pb-6">
         <div>
-          <div className="flex items-center space-x-2.5">
-            <h1 className="text-2xl font-black tracking-tight text-slate-900">
-              Screening Result
-            </h1>
-            <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
-              Member 5 Deliverable
-            </span>
-          </div>
-          <p className="text-xs text-slate-600 mt-1 font-medium">
-            Human-readable AI screening output & clinical referral guidance for PHC health worker
-          </p>
+          <h2 className="text-3xl font-bold text-[#1E293B]">Patient Screening Result</h2>
+          <p className="text-[#64748B] mt-1">Review the AI analysis and clinical referral guidance</p>
         </div>
-
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={onStartNewScreening}
-            className="px-4 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-800 text-xs font-bold transition-all border border-slate-200 shadow-2xs flex items-center space-x-1.5 touch-target"
-          >
-            <RefreshCw className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Start New Screening</span>
-          </button>
-        </div>
+        <button
+          onClick={onStartNewScreening}
+          className="px-5 py-2.5 rounded-lg bg-white text-[#1E293B] border border-gray-200 shadow-sm hover:bg-gray-50 hover:shadow-md transition-all font-semibold flex items-center space-x-2"
+        >
+          <RefreshCw className="w-4 h-4 text-[#34A853]" />
+          <span>New Screening</span>
+        </button>
       </div>
 
-      {/* Grid Layout for Result Sections */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Left 2 Columns: Main Diagnostic Cards */}
-        <div className="lg:col-span-2 space-y-6">
+        {/* Left Column (Patient & Image Data - equivalent to the "Doctor Image" side) */}
+        <div className="lg:col-span-5 space-y-6">
           
-          {/* 1. Patient Demographics Section (Medico+ White Card) */}
-          <div className="medico-card p-5 space-y-3">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div className="flex items-center space-x-3">
-                <div className="p-2.5 rounded-xl bg-sky-50 text-sky-700 border border-sky-100">
-                  <User className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                    Patient Profile
-                  </span>
-                  <h2 className="text-lg font-black text-slate-900 font-mono tracking-tight">
-                    {patient.patientId} — {patient.fullName}
-                  </h2>
-                </div>
+          {/* Patient Profile Card */}
+          <div className="medico-card p-6 border-t-4 border-t-[#0A58CA]">
+            <div className="flex items-center space-x-4 mb-6">
+              <div className="w-14 h-14 rounded-full bg-[#E2F1FF] flex items-center justify-center text-[#0A58CA]">
+                <User className="w-6 h-6" />
               </div>
-              <span className="text-xs font-mono font-bold px-3 py-1 rounded-lg bg-teal-50 text-teal-800 border border-teal-200">
-                OD/OS Active
-              </span>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                <span className="text-[10px] text-slate-500 font-medium block">Age / Gender</span>
-                <span className="font-extrabold text-slate-900">
-                  {patient.age} Yrs • {patient.gender}
-                </span>
-              </div>
-              <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                <span className="text-[10px] text-slate-500 font-medium block">Diabetes Duration</span>
-                <span className="font-extrabold text-slate-900">
-                  {patient.diabetesDurationYears} Years History
-                </span>
-              </div>
-              <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                <span className="text-[10px] text-slate-500 font-medium block">PHC Centre</span>
-                <span className="font-extrabold text-slate-900 truncate block">
-                  {patient.phcLocation.split(',')[0]}
-                </span>
-              </div>
-              <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                <span className="text-[10px] text-slate-500 font-medium block">Screening Date</span>
-                <span className="font-extrabold text-slate-900">
-                  {screeningDate}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* 2 & 3. Retinal Image & Quality Status Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
-            {/* Retinal Image Card */}
-            <div className="medico-card p-5 space-y-3 flex flex-col justify-between">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Eye className="w-4 h-4 text-sky-600" />
-                  <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                    Retinal Image
-                  </h3>
-                </div>
-                <span className="text-[11px] text-slate-500 font-semibold">{retinalImage.eye}</span>
-              </div>
-
-              {/* Thumbnail Container */}
-              <div className="relative group rounded-xl overflow-hidden bg-slate-950 p-2 flex items-center justify-center border border-slate-200 aspect-video shadow-inner">
-                <img
-                  src={retinalImage.url}
-                  alt={`Retinal image for ${patient.patientId}`}
-                  className="h-full object-contain rounded-full shadow-lg group-hover:scale-105 transition-transform duration-300"
-                />
-                <button
-                  onClick={onOpenImageModal}
-                  className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white font-bold text-xs transition-opacity space-x-1.5"
-                >
-                  <Eye className="w-4 h-4 text-sky-300" />
-                  <span>View Retinal Image</span>
-                </button>
-              </div>
-
-              <button
-                onClick={onOpenImageModal}
-                className="w-full py-2.5 px-3 rounded-xl medico-btn-secondary text-xs transition-all flex items-center justify-center space-x-2 touch-target"
-              >
-                <Eye className="w-4 h-4" />
-                <span>View Retinal Image</span>
-              </button>
-            </div>
-
-            {/* Image Quality Status Card (Member 3 Input) */}
-            <div className="medico-card p-5 space-y-3 flex flex-col justify-between">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Activity className="w-4 h-4 text-emerald-600" />
-                  <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                    Image Quality (Member 3)
-                  </h3>
-                </div>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-bold">
-                  Member 3 Contract
-                </span>
-              </div>
-
-              <div className="space-y-2 p-3.5 rounded-xl bg-slate-50 border border-slate-100">
-                <div className="flex items-center space-x-2">
-                  <span className="text-xl">
-                    {quality.status === 'SUITABLE' ? '🟢' : '⚠️'}
-                  </span>
-                  <div>
-                    <span className="text-sm font-black text-slate-900 block">
-                      {quality.label}
-                    </span>
-                    <span className="text-[11px] text-slate-500 font-semibold">
-                      Quality Score: {quality.score}/100
-                    </span>
-                  </div>
-                </div>
-
-                <p className="text-[11px] text-slate-600 font-medium leading-normal">
-                  {quality.clarity}
-                </p>
-
-                {quality.issues && (
-                  <div className="pt-2 border-t border-slate-200 text-[10px] text-amber-700 font-bold">
-                    <strong>Flags:</strong> {quality.issues.join(', ')}
-                  </div>
-                )}
-              </div>
-
-              <div className="text-[10px] text-slate-500 flex items-center justify-between font-medium">
-                <span>Validation: Member 3 Pipeline</span>
-                <span className="font-bold text-emerald-700">Verified ✓</span>
-              </div>
-            </div>
-          </div>
-
-          {/* 4 & 5. AI Screening Result & Confidence Card (Member 4 Input) */}
-          <div className="medico-card p-5 space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
               <div>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                  Member 4 Output Ingestion
-                </span>
-                <h3 className="text-base font-bold text-slate-900 flex items-center space-x-2">
-                  <span>AI Screening Result</span>
-                  <span className="text-[10px] font-normal text-slate-500">
-                    ({aiOutput.modelVersion})
-                  </span>
-                </h3>
-              </div>
-
-              {/* Confidence Badge */}
-              <div className="flex items-center space-x-2">
-                {aiOutput.confidence !== null && aiOutput.isCalibrated ? (
-                  <div className="px-3.5 py-1 rounded-xl bg-teal-50 text-teal-800 border border-teal-200 text-xs font-extrabold flex items-center space-x-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-teal-600" />
-                    <span>Calibrated Confidence: {Math.round(aiOutput.confidence * 100)}%</span>
-                  </div>
-                ) : (
-                  <div className="px-3.5 py-1 rounded-xl bg-slate-100 text-slate-700 text-xs font-semibold border border-slate-200">
-                    <span>Confidence: N/A (Screening Support Only)</span>
-                  </div>
-                )}
+                <h3 className="text-xl font-bold text-[#1E293B]">{patient.fullName}</h3>
+                <p className="text-[#64748B] text-sm">ID: {patient.patientId}</p>
               </div>
             </div>
-
-            {/* Visually Prominent Non-Diagnostic Classification Banner */}
-            <div className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs ${statusBadge.colorClass}`}>
-              <div className="flex items-center space-x-3">
-                <span className="text-3xl">{statusBadge.symbol}</span>
-                <div>
-                  <h4 className="text-lg font-black tracking-tight">{statusBadge.title}</h4>
-                  <p className="text-xs opacity-90 leading-normal font-medium">{statusBadge.description}</p>
-                </div>
+            
+            <div className="space-y-4 text-sm">
+              <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                <span className="text-[#64748B]">Age / Gender</span>
+                <span className="font-semibold text-[#1E293B]">{patient.age} Yrs • {patient.gender}</span>
               </div>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md bg-white/80 border border-current shrink-0 self-start sm:self-auto shadow-2xs">
-                Screening Indicator
-              </span>
+              <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                <span className="text-[#64748B]">Diabetes History</span>
+                <span className="font-semibold text-[#1E293B]">{patient.diabetesDurationYears} Years</span>
+              </div>
+              <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                <span className="text-[#64748B]">Date</span>
+                <span className="font-semibold text-[#1E293B]">{screeningDate}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="text-[#64748B]">Clinic</span>
+                <span className="font-semibold text-[#1E293B]">{patient.phcLocation.split(',')[0]}</span>
+              </div>
             </div>
-
-            <p className="text-[11px] text-slate-500 italic font-medium">
-              * Note: Screening support system — not a medical diagnosis. High confidence values reflect ML model calibration bounds, not definitive clinical diagnostic certainty.
-            </p>
           </div>
 
-          {/* 5. Referral Recommendation Card (Medico+ Clinical Soft Styling) */}
-          <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-teal-950 border-2 border-teal-500/40 text-white rounded-2xl p-5 sm:p-6 shadow-lg space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div className="flex items-center space-x-3">
-                <div className="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-400/30">
-                  <ShieldAlert className="w-6 h-6" />
-                </div>
-                <div>
-                  <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">
-                    Action Plan & Recommendation
-                  </span>
-                  <h2 className="text-lg font-black text-white">
-                    Referral Recommendation
-                  </h2>
-                </div>
+          {/* Retinal Image & Quality */}
+          <div className="medico-card p-6">
+            <h4 className="font-bold text-[#1E293B] mb-4 flex items-center gap-2">
+              <Eye className="w-5 h-5 text-[#34A853]" />
+              Retinal Scan ({retinalImage.eye})
+            </h4>
+            
+            <div className="relative group rounded-xl overflow-hidden bg-black flex items-center justify-center aspect-video mb-4 cursor-pointer" onClick={onOpenImageModal}>
+              <img
+                src={retinalImage.url}
+                alt="Retinal Scan"
+                className="h-full object-contain opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+              />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                <span className="bg-white text-[#1E293B] px-4 py-2 rounded-lg font-semibold text-sm">View Full Screen</span>
               </div>
-
-              <span className="text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/40">
-                {referral.level}
-              </span>
             </div>
 
-            {/* Recommendation Title */}
-            <div className="flex items-center space-x-3 p-4 rounded-xl bg-slate-900/90 border border-slate-800">
-              <span className="text-2xl">{statusBadge.symbol}</span>
-              <span className="text-base font-black text-white">
-                {referral.actionText}
-              </span>
-            </div>
-
-            {/* "Why?" Rationale Section */}
-            <div className="space-y-1.5 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
-              <h4 className="text-xs font-extrabold text-emerald-400 uppercase tracking-wider flex items-center space-x-1.5">
-                <Info className="w-3.5 h-3.5" />
-                <span>Why?</span>
-              </h4>
-              <p className="text-xs text-slate-200 leading-relaxed font-medium">
-                {referral.whyRationale}
-              </p>
-            </div>
-
-            <div className="flex items-center justify-between text-xs text-slate-300 pt-1">
-              <span>Suggested Follow-up Window:</span>
-              <strong className="text-emerald-300 font-extrabold">{referral.suggestedTimeframe}</strong>
+            <div className="bg-[#F8FAF9] rounded-xl p-4 border border-gray-100">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-semibold text-[#64748B]">Quality Assessment</span>
+                {quality.status === 'SUITABLE' ? (
+                  <span className="flex items-center text-xs font-bold text-[#34A853] bg-[#E6F5F2] px-2 py-1 rounded">
+                    <CheckCircle2 className="w-3 h-3 mr-1" /> Suitable
+                  </span>
+                ) : (
+                  <span className="flex items-center text-xs font-bold text-[#F59E0B] bg-[#FFF6E5] px-2 py-1 rounded">
+                    <AlertCircle className="w-3 h-3 mr-1" /> {quality.label}
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-[#64748B]">{quality.clarity}</p>
             </div>
           </div>
         </div>
 
-        {/* Right 1 Column: Screening Summary & Primary Action Buttons */}
-        <div className="space-y-6">
+        {/* Right Column (AI Results & Actions - equivalent to the "Booking Form" side) */}
+        <div className="lg:col-span-7 space-y-6">
           
-          {/* 6. Screening Summary Card (Medico+ White Card) */}
-          <div className="medico-card p-5 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div className="flex items-center space-x-2">
-                <FileText className="w-4 h-4 text-emerald-600" />
-                <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                  Screening Summary
-                </h3>
+          {/* AI Screening Result Card */}
+          <div className="medico-card p-8 border-t-4 border-t-[#34A853]">
+            <div className="flex justify-between items-start mb-6">
+              <div>
+                <h3 className="text-2xl font-bold text-[#1E293B]">AI Diagnostic Support</h3>
+                <p className="text-[#64748B] text-sm mt-1">Model Version: {aiOutput.modelVersion}</p>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold">
-                PHC Log
-              </span>
+              
+              {aiOutput.confidence !== null && aiOutput.isCalibrated && (
+                <div className="bg-[#E6F5F2] text-[#34A853] px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4" />
+                  {Math.round(aiOutput.confidence * 100)}% Confidence
+                </div>
+              )}
             </div>
 
-            <div className="space-y-3 text-xs">
-              <div className="flex justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                <span className="text-slate-500 font-medium">Screening Date:</span>
-                <span className="font-extrabold text-slate-900">{screeningDate}</span>
+            <div className={`p-5 rounded-2xl border flex items-start gap-4 mb-6 ${
+              aiOutput.class.includes('Referable') ? 'bg-[#FFF5F5] border-[#FCA5A5]' : 'bg-[#F0FDF4] border-[#86EFAC]'
+            }`}>
+              <div className="text-4xl mt-1">{statusBadge.symbol}</div>
+              <div>
+                <h4 className="text-xl font-extrabold text-[#1E293B]">{statusBadge.title}</h4>
+                <p className="text-[#64748B] mt-1">{statusBadge.description}</p>
               </div>
-              <div className="flex justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                <span className="text-slate-500 font-medium">Patient ID:</span>
-                <span className="font-mono font-extrabold text-slate-900">{patient.patientId}</span>
+            </div>
+
+            {/* Referral Recommendation */}
+            <div className="bg-[#1E293B] rounded-2xl p-6 text-white shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 opacity-10">
+                <ShieldAlert className="w-24 h-24" />
               </div>
-              <div className="flex justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                <span className="text-slate-500 font-medium">Image Quality:</span>
-                <span className="font-extrabold text-slate-900">{quality.label}</span>
-              </div>
-              <div className="flex justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                <span className="text-slate-500 font-medium">AI Result:</span>
-                <span className="font-extrabold text-slate-900">{aiOutput.class}</span>
-              </div>
-              <div className="flex justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                <span className="text-slate-500 font-medium">Referral Status:</span>
-                <span className="font-extrabold text-slate-900">{referral.title}</span>
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="bg-[#34A853] text-white text-xs font-bold px-2 py-1 rounded">Recommendation</span>
+                  <span className="text-gray-400 text-sm">{referral.level}</span>
+                </div>
+                
+                <h4 className="text-2xl font-bold mb-4 text-white">
+                  {referral.actionText}
+                </h4>
+                
+                <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/10">
+                  <h5 className="flex items-center gap-2 text-[#34A853] font-bold text-sm mb-2">
+                    <Info className="w-4 h-4" /> Clinical Rationale
+                  </h5>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    {referral.whyRationale}
+                  </p>
+                </div>
+                
+                <div className="mt-4 flex justify-between items-center text-sm">
+                  <span className="text-gray-400">Follow-up Timeframe:</span>
+                  <span className="font-bold text-[#34A853]">{referral.suggestedTimeframe}</span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* 7. Action Buttons (Medico+ Fresh Green Primary) */}
-          <div className="medico-card p-5 space-y-3">
-            <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">
-              Module Action Controls
-            </h3>
-
-            {/* Primary Action Button: Fresh Green Generate Report */}
+          {/* Action Buttons */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <button
               onClick={onGenerateReport}
-              className="w-full py-3.5 px-4 rounded-xl medico-btn-primary text-sm font-extrabold flex items-center justify-center space-x-2 touch-target"
+              className="medico-btn-primary py-4 px-6 rounded-xl flex items-center justify-between group"
             >
-              <FileText className="w-4 h-4" />
-              <span>Generate Report (Member 6)</span>
-              <ChevronRight className="w-4 h-4 opacity-75" />
+              <div className="flex items-center gap-2">
+                <FileText className="w-5 h-5" />
+                <span className="text-lg">Generate Report</span>
+              </div>
+              <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
-
-            {/* Secondary Action: View Retinal Image */}
+            
             <button
-              onClick={onOpenImageModal}
-              className="w-full py-3 px-4 rounded-xl medico-btn-secondary text-xs font-extrabold flex items-center justify-center space-x-2 touch-target"
+              onClick={onOpenContractsModal}
+              className="medico-btn-secondary py-4 px-6 rounded-xl flex items-center justify-center gap-2"
             >
-              <Eye className="w-4 h-4" />
-              <span>View Retinal Image</span>
+              <Code className="w-5 h-5" />
+              <span>Inspect JSON Payload</span>
             </button>
-
-            {/* Tertiary Action: Start New Screening */}
-            <button
-              onClick={onStartNewScreening}
-              className="w-full py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all flex items-center justify-center space-x-2 border border-slate-200 touch-target"
-            >
-              <RefreshCw className="w-3.5 h-3.5 text-slate-600" />
-              <span>Start New Screening</span>
-            </button>
-
-            {/* Developer Integration inspector button */}
-            <div className="pt-2 border-t border-slate-100">
-              <button
-                onClick={onOpenContractsModal}
-                className="w-full text-center text-[11px] text-teal-700 hover:text-teal-900 hover:underline font-bold"
-              >
-                Inspect M4 Input & M6 Output JSON Payloads
-              </button>
-            </div>
           </div>
+
         </div>
       </div>
     </div>

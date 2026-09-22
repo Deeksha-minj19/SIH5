@@ -1,86 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @layer base {
   :root {
-    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     
-    /* Medico+ Soft Healthcare Palette */
-    --brand-navy: #0f172a;
-    --brand-emerald: #10b981;
-    --brand-teal: #0d9488;
-    --brand-sky: #0284c7;
-    --bg-page: #f4fbf7;
+    /* Medico+ Brand Colors */
+    --brand-primary: #34A853; /* The primary green seen in buttons and accents */
+    --brand-primary-hover: #298d43;
+    --brand-secondary: #0A58CA; /* The blue used for secondary buttons */
+    --brand-navy: #1E293B; /* Deep dark slate for main headings */
+    --brand-teal: #E6F5F2; /* Soft teal background */
+    --bg-page: #ffffff;
     --card-bg: #ffffff;
-    --card-border: #e2e8f0;
-    --text-navy: #0f172a;
-    --text-slate: #475569;
+    --text-primary: #1E293B;
+    --text-secondary: #64748B;
+    
+    /* Shadows and Borders */
+    --shadow-soft: 0 10px 40px -10px rgba(52, 168, 83, 0.08);
+    --shadow-hover: 0 20px 40px -10px rgba(52, 168, 83, 0.15);
+    --radius-xl: 1.5rem;
+    --radius-2xl: 2rem;
   }
 
   body {
     font-family: var(--font-sans);
-    background: linear-gradient(135deg, #f0fdf4 0%, #f4fbf7 35%, #f0f9ff 70%, #e0f2fe 100%);
-    background-attachment: fixed;
-    color: var(--text-navy);
+    background-color: var(--bg-page);
+    color: var(--text-primary);
     -webkit-tap-highlight-color: transparent;
     overflow-x: hidden;
   }
 }
 
-/* Medico+ Theme Utility Classes */
-.medico-bg-gradient {
-  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 40%, #e0f2fe 100%);
+/* Medico+ Hero Gradient */
+.medico-hero-gradient {
+  background: linear-gradient(110deg, #E2F6F9 0%, #DFF4EE 50%, #C9EFE0 100%);
 }
 
+.medico-section-light {
+  background-color: #F8FAF9;
+}
+
+/* Medico+ Cards */
 .medico-card {
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 1rem;
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(16, 185, 129, 0.04);
-  transition: all 0.2s ease-in-out;
+  background-color: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .medico-card-hover:hover {
-  box-shadow: 0 10px 25px -3px rgba(16, 185, 129, 0.1), 0 4px 10px -2px rgba(2, 132, 199, 0.05);
-  border-color: #cbd5e1;
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
+  border-color: rgba(52, 168, 83, 0.1);
 }
 
+/* Medico+ Buttons */
 .medico-btn-primary {
-  background-color: #10b981;
-  color: #ffffff;
-  font-weight: 700;
-  box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.35);
-  transition: all 0.2s ease;
+  @apply bg-[#34A853] text-white font-bold rounded-xl transition-all duration-200 shadow-[0_4px_14px_0_rgba(52,168,83,0.2)] active:scale-95;
 }
 
 .medico-btn-primary:hover {
-  background-color: #059669;
-  box-shadow: 0 6px 20px 0 rgba(16, 185, 129, 0.45);
-  transform: translateY(-1px);
+  @apply bg-[#2E954A] shadow-[0_6px_20px_0_rgba(52,168,83,0.3)] -translate-y-px;
 }
 
 .medico-btn-secondary {
-  background-color: #0284c7;
-  color: #ffffff;
-  font-weight: 700;
-  box-shadow: 0 4px 14px 0 rgba(2, 132, 199, 0.3);
-  transition: all 0.2s ease;
+  @apply bg-[#E2F1FF] text-[#0A58CA] font-bold rounded-xl transition-all duration-200 active:scale-95;
 }
 
 .medico-btn-secondary:hover {
-  background-color: #0369a1;
-  box-shadow: 0 6px 20px 0 rgba(2, 132, 199, 0.4);
-  transform: translateY(-1px);
+  @apply bg-[#D0E7FF] -translate-y-px;
 }
 
-/* Glassmorphism & Custom Shadow Utilities */
+/* Glassmorphism / Sub-Cards */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 1rem;
 }
 
-/* Touch Target Optimization for Mobile */
+/* Utilities */
 .touch-target {
   min-height: 48px;
   min-width: 48px;
@@ -89,34 +91,22 @@
   justify-content: center;
 }
 
-/* Subtle Shimmer & Radar Pulse Animations */
-@keyframes pulse-radar {
-  0% {
-    transform: scale(0.96);
-    opacity: 0.85;
-  }
-  50% {
-    transform: scale(1.03);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(0.96);
-    opacity: 0.85;
-  }
-}
-
-.animate-pulse-radar {
-  animation: pulse-radar 2.5s infinite ease-in-out;
+.text-gradient-primary {
+  background: linear-gradient(to right, #1E293B, #34A853);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #f8fafc;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -126,4 +116,13 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+/* Hide scrollbar for swipeable containers */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }

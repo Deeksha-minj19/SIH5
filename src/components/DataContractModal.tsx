@@ -101,7 +101,7 @@ export const DataContractModal: React.FC<DataContractModalProps> = ({
         </div>
 
         {/* JSON Viewer Canvas */}
-        <div className="flex-1 bg-slate-950 p-6 overflow-auto font-mono text-xs text-emerald-400 max-h-[50vh]">
+        <div className="flex-1 bg-slate-950 p-6 overflow-auto font-mono text-xs text-emerald-400">
           <pre>{activeJson}</pre>
         </div>
 

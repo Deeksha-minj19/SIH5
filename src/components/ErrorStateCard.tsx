@@ -58,51 +58,49 @@ export const ErrorStateCard: React.FC<ErrorStateCardProps> = ({
   const Icon = config.icon;
 
   return (
-    <div className="medico-card p-6 sm:p-8 max-w-xl mx-auto space-y-5 border-amber-200 bg-amber-50/40 shadow-md animate-fadeIn">
-      <div className="flex items-start space-x-4">
-        <div className="p-3 rounded-2xl bg-amber-100 text-amber-800 shrink-0">
-          <Icon className="w-6 h-6" />
+    <div className="medico-card p-8 max-w-2xl mx-auto space-y-6 border-t-4 border-[#F59E0B] bg-[#FFF6E5]/30 animate-fadeIn my-12">
+      <div className="flex items-start gap-5">
+        <div className="p-4 rounded-2xl bg-[#FFF6E5] text-[#F59E0B] shrink-0 border border-[#F59E0B]/20">
+          <Icon className="w-8 h-8" />
         </div>
-        <div className="space-y-1">
-          <div className="flex items-center space-x-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-200/80 text-amber-900">
-              System Error Alert
-            </span>
-          </div>
-          <h3 className="text-base font-black text-slate-900 leading-tight">
+        <div className="space-y-2">
+          <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-[#F59E0B]/10 text-[#D97706]">
+            System Alert
+          </span>
+          <h3 className="text-xl font-bold text-[#1E293B]">
             {config.title}
           </h3>
-          <p className="text-xs text-slate-700 leading-relaxed font-medium">
+          <p className="text-[#64748B] text-sm leading-relaxed">
             {config.desc}
           </p>
         </div>
       </div>
 
-      {/* Recommended Action Guidelines for PHC Health Worker */}
-      <div className="p-3.5 rounded-xl bg-white border border-amber-200/80 text-xs space-y-1.5">
-        <div className="font-bold text-slate-900 flex items-center space-x-1.5">
-          <HelpCircle className="w-3.5 h-3.5 text-amber-600" />
-          <span>Health Worker Action Instructions:</span>
+      {/* Recommended Action Guidelines */}
+      <div className="p-4 rounded-xl bg-white border border-gray-100 text-sm space-y-2">
+        <div className="font-bold text-[#1E293B] flex items-center space-x-2">
+          <HelpCircle className="w-4 h-4 text-[#F59E0B]" />
+          <span>Health Worker Instructions:</span>
         </div>
-        <ul className="list-disc list-inside text-[11px] text-slate-600 space-y-1 pl-1">
+        <ul className="list-disc list-inside text-[#64748B] space-y-1.5 pl-2">
           <li>Verify tablet network status or switch offline mode toggle.</li>
           <li>If AI remains unavailable, log patient for manual specialist referral.</li>
         </ul>
       </div>
 
       {/* Button Actions */}
-      <div className="flex items-center justify-end space-x-3 pt-2">
+      <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-4 border-t border-gray-100">
         <button
           onClick={onClearError}
-          className="px-4 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 text-xs font-bold border border-slate-200 transition-all"
+          className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white hover:bg-gray-50 text-[#1E293B] text-sm font-bold border border-gray-200 transition-all"
         >
           Dismiss Alert
         </button>
         <button
           onClick={onRetry}
-          className="px-4 py-2 rounded-xl medico-btn-primary text-xs font-black transition-all flex items-center space-x-1.5"
+          className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-white text-sm font-bold transition-all flex items-center justify-center space-x-2 shadow-sm"
         >
-          <RefreshCcw className="w-3.5 h-3.5" />
+          <RefreshCcw className="w-4 h-4" />
           <span>{config.action}</span>
         </button>
       </div>
